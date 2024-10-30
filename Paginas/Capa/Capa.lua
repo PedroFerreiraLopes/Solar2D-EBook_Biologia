@@ -18,6 +18,16 @@ local scene = composer.newScene()
 function scene:create( event )
  
     local sceneGroup = self.view
+
+    local Capa = display.newImage( sceneGroup, "assets/Capa.png", display.contentCenterX, display.contentCenterY)
+
+    local transitionOptions = {
+        effect = "slideLeft",
+        time = 600,
+    }
+    sceneGroup:addEventListener("tap", function (event) 
+        composer.gotoScene( "Paginas.Pag1.Pag1", transitionOptions )
+    end);
     -- Code here runs when the scene is first created but has not yet appeared on screen
  
 end
