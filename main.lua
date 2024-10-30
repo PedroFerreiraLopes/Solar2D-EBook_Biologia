@@ -9,7 +9,7 @@ local composer = require("composer");
 local transitionOptions = {
 
     effect = "zoomInOut",
-    time = 4000,
+    time = 400,
     -- params = {
     --     sampleVar1 = "my sample variable",
     --     sampleVar2 = "another sample variable"
