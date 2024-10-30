@@ -27,6 +27,14 @@ function scene:create( event )
     local pokedex = display.newImage(sceneGroup, "assets/Pokedex/Pokedex.png")
     pokedex:scale(371/500,835/1125);
     pokedex.x, pokedex.y = 285 + (371/2), 215 + (835/2);
+    local bottom_screen_text = display.newImage( sceneGroup, "assets/Pag1/bottom_screen_text.png");
+    bottom_screen_text.x = pokedex.x - (562 - pokedex.x)/2;
+    bottom_screen_text.y = pokedex.y + pokedex.y/2 - 40;
+    local bottom_screen_division = display.newLine( 
+        sceneGroup, 562, 715, 
+        562, 715 + 263);
+    bottom_screen_division:setStrokeColor( 0, 0, 0, 1 )
+    bottom_screen_division.strokeWidth = 2.5
  
     sceneGroup:insert(snapShot.rectShutter);
     snapShot.x, snapShot.y, snapShot.scene = pokedex.x + 50, pokedex.y + 50, sceneGroup;
