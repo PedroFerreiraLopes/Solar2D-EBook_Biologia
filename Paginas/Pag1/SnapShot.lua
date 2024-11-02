@@ -8,6 +8,28 @@ table.rectShutter.fill = {1,.01};
 
 table.PrtScr = nil;
 
+-- AT WORK ----------------------------------------------------
+
+-- Initialize the animal table
+table.animals = {}
+
+-- Function to add a new animal with identifier
+local function addAnimal(sprite, id)
+    sprite.id = id
+    table.insert(table.animals, sprite)
+end
+
+-- In `snapShotListener`, after capturing `PrtScr`:
+for _, animal in ipairs(table.animals) do
+    local bounds = animal.contentBounds
+    if bounds.xMax >= captureBounds.xMin and bounds.xMin <= captureBounds.xMax and
+       bounds.yMax >= captureBounds.yMin and bounds.yMin <= captureBounds.yMax then
+        print("Captured animal: " .. animal.id)
+    end
+end
+
+-- AT WORK ---------------------------------------------------
+
 local resetAlphaListener_rectShutter = function (obj)
     obj.alpha = 0.01;
 end;

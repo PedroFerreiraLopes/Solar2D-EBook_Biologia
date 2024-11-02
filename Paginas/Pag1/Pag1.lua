@@ -1,6 +1,10 @@
 local composer = require( "composer" );
+local CONST = require("BookConstants");
+
 local snapShot = require("Paginas.Pag1.SnapShot");
- 
+
+local giraffe = require("Animals.Giraffe.Giraffe");
+
 local scene = composer.newScene();
  
 -- -----------------------------------------------------------------------------------
@@ -24,9 +28,16 @@ function scene:create( event )
     local placeholder = display.newImage(sceneGroup, "assets/Icon.png");
     placeholder:scale(5,5);
     placeholder.x, placeholder.y = display.contentCenterX, display.contentCenterY;
+
+    sceneGroup:insert(giraffe.sprite);
+
+    giraffe.sprite:play();
+    giraffe.sprite.x, giraffe.sprite.y = CONST.pokedex.x, CONST.pokedex.y;
+
     local pokedex = display.newImage(sceneGroup, "assets/Pokedex/Pokedex.png")
-    pokedex:scale(371/500,835/1125);
-    pokedex.x, pokedex.y = 285 + (371/2), 215 + (835/2);
+    pokedex.xScale, pokedex.yScale = CONST.pokedex.xScale, CONST.pokedex.yScale;
+    pokedex.x, pokedex.y = CONST.pokedex.x, CONST.pokedex.y;
+
     local bottom_screen_text = display.newImage( sceneGroup, "assets/Pag1/bottom_screen_text.png");
     bottom_screen_text.x = pokedex.x - (562 - pokedex.x)/2;
     bottom_screen_text.y = pokedex.y + pokedex.y/2 - 40;
