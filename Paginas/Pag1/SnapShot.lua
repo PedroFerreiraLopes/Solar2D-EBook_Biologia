@@ -1,10 +1,12 @@
 local table = {};
 
--- Set scene + position + scale on page
+-- Set scene
 table.scene = nil;
 
 table.rectShutter = display.newRect(0, 0, 50, 50);
 table.rectShutter.fill = {1,.01};
+
+table.PrtScr = nil;
 
 local resetAlphaListener_rectShutter = function (obj)
     obj.alpha = 0.01;
@@ -24,14 +26,14 @@ local snapShotListener = function ( event )
     }
     
     -- Capture only within these bounds
-    local PrtScr = display.captureBounds(captureBounds)
-    PrtScr.x, PrtScr.y = shutter.x, shutter.y + 400
-    PrtScr.stroke = {1,0,0};
-    PrtScr.strokeWidth = 8;
-    PrtScr:scale(.3, .3);
+    table.PrtScr = display.captureBounds(captureBounds)
+    table.PrtScr.x, table.PrtScr.y = shutter.x - 70, shutter.y + 340
+    table.PrtScr.stroke = {1,0,0};
+    table.PrtScr.strokeWidth = 8;
+    table.PrtScr.xScale, table.PrtScr.yScale = .4, .4;
 
     if table.scene then
-        table.scene:insert(PrtScr)
+        table.scene:insert(table.PrtScr)
     end
 
     shutter:setFillColor(1, 1, 1);
@@ -58,8 +60,8 @@ local snapShotListener = function ( event )
 
     -- PrtCtn:scale(.3,.3);
     
-    PrtScr:addEventListener("tap", function (event) 
-        display.remove( PrtScr );
+    table.PrtScr:addEventListener("tap", function (event) 
+        display.remove( event.target );
     end);
 end
 
