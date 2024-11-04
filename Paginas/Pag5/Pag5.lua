@@ -1,4 +1,5 @@
 local composer = require( "composer" )
+local CONST = require("BookConstants");
  
 local scene = composer.newScene()
  
@@ -16,10 +17,99 @@ local scene = composer.newScene()
  
 -- create()
 function scene:create( event )
+
+    local interationCounter = 1;
+    
+    local imgPath = "assets/Pag5/";
+
+    local topTextPath = {
+        imgPath .. "Top_TextBox1.png",
+        imgPath .. "Top_TextBox2.png"
+    };
+
+    local topTextSequence = {1, 2, 2, 1};
+
+    local latTextPath = {
+        imgPath .. "Lat_TextBox1.png",
+        imgPath .. "Lat_TextBox2.png",
+        imgPath .. "Lat_TextBox3.png",
+    }
+
+    local latTextSequence = {0, 1, 2, 3};
+
+    local riverImagePath = {
+        imgPath .. "River1.png",
+        imgPath .. "River2.png",
+        imgPath .. "River3.png",
+        imgPath .. "River4.png",
+    }
+
+    local riverImageSequence = {1, 2, 3, 4};
+
+    local changeTableVisibility = function (iterator, sequence, table)
+        if(sequence[iterator] > 0)then
+            if(iterator > 1)then
+                if(sequence[iterator-1] > 0)then
+                    table[sequence[iterator-1]].isVisible = false; 
+                    print( "dissapeared iteration before" );
+                end            
+            end
+            print( "In sequence" );
+            print( sequence[iterator] );
+            table[sequence[iterator]].isVisible = true;
+        end
+    end
  
-    local sceneGroup = self.view
+ 
+    local sceneGroup = self.view;
     -- Code here runs when the scene is first created but has not yet appeared on screen
  
+    local pokedex = display.newImage(sceneGroup, "assets/Pokedex/Pokedex.png");
+    pokedex.xScale, pokedex.yScale = CONST.pokedex.xScale, CONST.pokedex.yScale;
+    pokedex.x, pokedex.y = CONST.pokedex.x, CONST.pokedex.y;
+
+    local topText = {}
+    for i = 1,#topTextPath do
+        topText[i] = display.newImage( sceneGroup, topTextPath[i], display.contentCenterX, 19);
+        topText[i].anchorY = 0;
+        topText[i].isVisible = false
+    end
+
+    local latText = {}
+    for i = 1,#latTextPath do
+        latText[i] = display.newImage( sceneGroup, latTextPath[i], 31, 215);
+        latText[i].anchorX, latText[i].anchorY = 0, 0;
+        latText[i].isVisible = false;
+    end
+
+    local riverImageGroup = display.newGroup();
+    sceneGroup:insert( riverImageGroup);
+
+    local riverImage = {}
+    for i = 1,#riverImagePath do
+        riverImage[i] = display.newImage( riverImageGroup, riverImagePath[i], pokedex.x, CONST.pokedex.yBottomScreen);
+        riverImage[i].isVisible = false;
+    end
+
+    changeTableVisibility(interationCounter, topTextSequence, topText);
+    changeTableVisibility(interationCounter, latTextSequence, latText);
+    changeTableVisibility(interationCounter, riverImageSequence, riverImage);
+
+    riverImageGroup:addEventListener("tap", function (event) 
+        if(interationCounter < 4)then
+            print( interationCounter )
+
+            interationCounter = interationCounter + 1;
+
+            changeTableVisibility(interationCounter, topTextSequence, topText);
+            changeTableVisibility(interationCounter, latTextSequence, latText);
+            changeTableVisibility(interationCounter, riverImageSequence, riverImage);
+
+            print( interationCounter )
+        else
+            return true; 
+        end
+    end);
 end
  
  
