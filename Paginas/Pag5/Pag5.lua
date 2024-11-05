@@ -18,6 +18,7 @@ local scene = composer.newScene()
 -- create()
 function scene:create( event )
 
+    local interactionEnabler = false
     local interactionCounter = 1;
     
     local imgPath = "assets/Pag5/";
@@ -95,13 +96,27 @@ function scene:create( event )
     changeTableVisibility(interactionCounter, latTextSequence, latText);
     changeTableVisibility(interactionCounter, riverImageSequence, riverImage);
 
+    local interactionTimer = timer.performWithDelay( 
+        2000, 
+        function () interactionEnabler = true end, 
+        1 
+    )
+
     riverImageGroup:addEventListener("tap", function (event) 
-        if(interactionCounter < 4)then
+
+        if(interactionEnabler and interactionCounter < 4)then
             interactionCounter = interactionCounter + 1;
 
             changeTableVisibility(interactionCounter, topTextSequence, topText);
             changeTableVisibility(interactionCounter, latTextSequence, latText);
             changeTableVisibility(interactionCounter, riverImageSequence, riverImage);
+
+            interactionEnabler = false;
+            interactionTimer = timer.performWithDelay( 
+                2000, 
+                function () interactionEnabler = true end, 
+                1 
+            )
         else
             return true; 
         end
