@@ -18,7 +18,7 @@ local scene = composer.newScene()
 -- create()
 function scene:create( event )
 
-    local interationCounter = 1;
+    local interactionCounter = 1;
     
     local imgPath = "assets/Pag5/";
 
@@ -91,21 +91,17 @@ function scene:create( event )
         riverImage[i].isVisible = false;
     end
 
-    changeTableVisibility(interationCounter, topTextSequence, topText);
-    changeTableVisibility(interationCounter, latTextSequence, latText);
-    changeTableVisibility(interationCounter, riverImageSequence, riverImage);
+    changeTableVisibility(interactionCounter, topTextSequence, topText);
+    changeTableVisibility(interactionCounter, latTextSequence, latText);
+    changeTableVisibility(interactionCounter, riverImageSequence, riverImage);
 
     riverImageGroup:addEventListener("tap", function (event) 
-        if(interationCounter < 4)then
-            print( interationCounter )
+        if(interactionCounter < 4)then
+            interactionCounter = interactionCounter + 1;
 
-            interationCounter = interationCounter + 1;
-
-            changeTableVisibility(interationCounter, topTextSequence, topText);
-            changeTableVisibility(interationCounter, latTextSequence, latText);
-            changeTableVisibility(interationCounter, riverImageSequence, riverImage);
-
-            print( interationCounter )
+            changeTableVisibility(interactionCounter, topTextSequence, topText);
+            changeTableVisibility(interactionCounter, latTextSequence, latText);
+            changeTableVisibility(interactionCounter, riverImageSequence, riverImage);
         else
             return true; 
         end
@@ -147,6 +143,9 @@ end
  
 -- destroy()
 function scene:destroy( event )
+
+    -- SET MULTI-TAPS DELAY
+    system.setTapDelay( 0 );
  
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
