@@ -50,9 +50,6 @@ function scene:create( event )
     giraffe.sprite:play();
     giraffe.sprite.x, giraffe.sprite.y = CONST.pokedex.x, CONST.pokedex.y;
     -- giraffe.sprite.alpha = 0;
- 
-    backgroundGroup:insert(snapShot.rectShutter);
-    snapShot.scene = backgroundGroup;
 
     local foregroundGroup = display.newGroup();
     sceneGroup:insert( foregroundGroup );
@@ -63,8 +60,10 @@ function scene:create( event )
 
     botoes.changeNavListener(prevButton, composer, "Paginas.Pag1.TextPage");
 
+    local rectShutter, captureTable = snapShot.createElements(backgroundGroup, foregroundGroup);
+
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
-    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/TEST.mp3");
+    -- botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/TEST.mp3");
     foregroundGroup:insert( soundButtonGroup );
 end
  
