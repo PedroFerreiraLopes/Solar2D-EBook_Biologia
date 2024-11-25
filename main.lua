@@ -4,7 +4,6 @@
 --
 -----------------------------------------------------------------------------------------
 local composer = require("composer");
--- local Pag1 = require("Paginas.Pag1.Pag1");
 
 local transitionOptions = {
 
@@ -16,6 +15,6 @@ local transitionOptions = {
     -- }
 }
 
-composer.gotoScene( "Paginas.Pag5.Pag5", transitionOptions )
+composer.gotoScene( "Paginas.Capa.Capa", transitionOptions )
 
 -- Your code here

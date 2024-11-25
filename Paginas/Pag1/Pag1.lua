@@ -1,9 +1,4 @@
 local composer = require( "composer" );
-local CONST = require("BookConstants");
-
-local snapShot = require("Paginas.Pag1.SnapShot");
-
-local giraffe = require("Animals.Giraffe.Giraffe");
 
 local scene = composer.newScene();
  
@@ -23,35 +18,54 @@ local scene = composer.newScene();
 function scene:create( event )
  
     local sceneGroup = self.view
+
+    local CONST = require("BookConstants");
+
+    local snapShot = require("Paginas.Pag1.SnapShot");
+
+    local lion = require("Animals.Lion.Lion");
+    local giraffe = require("Animals.Giraffe.Giraffe");
+
+    local inspect = require("inspect");
+
+    local botoes = require("Botoes");
+
+    local backgroundGroup = display.newGroup();
+    sceneGroup:insert( backgroundGroup );
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
     local placeholder = display.newImage(sceneGroup, "assets/Icon.png");
     placeholder:scale(5,5);
     placeholder.x, placeholder.y = display.contentCenterX, display.contentCenterY;
 
-    sceneGroup:insert(giraffe.sprite);
+    local background = display.newImage( backgroundGroup, "assets/Pag1/background.png");
+    background.anchorX, background.anchorY = 0, 0;
 
+    backgroundGroup:insert(lion.sprite);
+    backgroundGroup:insert(giraffe.sprite);
+
+    -- lion.sprite:setFrame(4);
+    lion.sprite:play();
+    lion.sprite.x, lion.sprite.y = lion.sprite.width, lion.sprite.height;
     giraffe.sprite:play();
     giraffe.sprite.x, giraffe.sprite.y = CONST.pokedex.x, CONST.pokedex.y;
-
-    local pokedex = display.newImage(sceneGroup, "assets/Pokedex/Pokedex.png")
-    pokedex.xScale, pokedex.yScale = CONST.pokedex.xScale, CONST.pokedex.yScale;
-    pokedex.x, pokedex.y = CONST.pokedex.x, CONST.pokedex.y;
-
-    local bottom_screen_text = display.newImage( sceneGroup, "assets/Pag1/bottom_screen_text.png");
-    bottom_screen_text.x = pokedex.x - (562 - pokedex.x)/2;
-    bottom_screen_text.y = pokedex.y + pokedex.y/2 - 40;
-    local bottom_screen_division = display.newLine( 
-        sceneGroup, 562, 715, 
-        562, 715 + 263);
-    bottom_screen_division:setStrokeColor( 0, 0, 0, 1 )
-    bottom_screen_division.strokeWidth = 2.5
+    -- giraffe.sprite.alpha = 0;
  
-    sceneGroup:insert(snapShot.rectShutter);
-    snapShot.x, snapShot.y, snapShot.scene = pokedex.x + 50, pokedex.y + 50, sceneGroup;
-    snapShot.rectShutter.x, snapShot.rectShutter.y = pokedex.x, pokedex.y - 178;
-    snapShot.rectShutter.width, snapShot.rectShutter.height = 334, 260;
-    -- snapShot.rectShutter.alpha = 1;
+    backgroundGroup:insert(snapShot.rectShutter);
+    snapShot.scene = backgroundGroup;
+
+    local foregroundGroup = display.newGroup();
+    sceneGroup:insert( foregroundGroup );
+
+    local prevButton, nextButton = botoes.createNavButtons();
+    foregroundGroup:insert( prevButton );
+    foregroundGroup:insert( nextButton );
+
+    botoes.changeNavListener(prevButton, composer, "Paginas.Pag1.TextPage");
+
+    local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
+    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/TEST.mp3");
+    foregroundGroup:insert( soundButtonGroup );
 end
  
  
@@ -66,6 +80,7 @@ function scene:show( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
+        composer.removeHidden();
  
     end
 end
@@ -82,7 +97,7 @@ function scene:hide( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
- 
+        audio.stop( 1 );
     end
 end
  
@@ -92,7 +107,6 @@ function scene:destroy( event )
  
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
- 
 end
  
  

@@ -26,7 +26,7 @@ function scene:create( event )
         time = 600,
     }
     sceneGroup:addEventListener("tap", function (event) 
-        composer.gotoScene( "Paginas.Pag1.Pag1", transitionOptions )
+        composer.gotoScene( "Paginas.Pag1.TextPage", transitionOptions )
     end);
     -- Code here runs when the scene is first created but has not yet appeared on screen
  
@@ -44,6 +44,7 @@ function scene:show( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
+        composer.removeHidden();
  
     end
 end

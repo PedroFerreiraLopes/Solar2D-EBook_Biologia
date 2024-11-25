@@ -3,10 +3,11 @@ local table = {};
 -- Set scene
 table.scene = nil;
 
-table.rectShutter = display.newRect(0, 0, 50, 50);
+table.rectShutter = display.newRect(0, 0, display.contentWidth, display.contentHeight);
+table.rectShutter.anchorX, table.rectShutter.anchorY = 0, 0;
 table.rectShutter.fill = {1,.01};
 
-table.PrtScr = nil;
+table.PrtScr = {};
 
 -- AT WORK ----------------------------------------------------
 
@@ -36,23 +37,31 @@ end;
 
 local snapShotListener = function ( event )
 
+    if(event.y < 121 or event.y > 899)then
+        return true;
+    end
+
     local shutter = event.target;
+    -- Hide PrtScr, to perfect image capture
+    table.PrtScr.alpha = 0;
 
     transition.cancel( transition_rectShutter );
 
+    -- Capture only within these bounds
     local captureBounds = {
-        xMin = shutter.contentBounds.xMin,
-        yMin = shutter.contentBounds.yMin,
-        xMax = shutter.contentBounds.xMax,
-        yMax = shutter.contentBounds.yMax
+        xMin = 127,
+        yMin = 305,
+        xMax = 127+504,
+        yMax = 305+493
     }
     
-    -- Capture only within these bounds
     table.PrtScr = display.captureBounds(captureBounds)
-    table.PrtScr.x, table.PrtScr.y = shutter.x - 70, shutter.y + 340
+    table.PrtScr.anchorX, table.PrtScr.anchorY = 0, 0;
+    table.PrtScr.x, table.PrtScr.y = 187, 269;
     table.PrtScr.stroke = {1,0,0};
-    table.PrtScr.strokeWidth = 8;
-    table.PrtScr.xScale, table.PrtScr.yScale = .4, .4;
+    -- table.PrtScr.strokeWidth = 1;
+    table.PrtScr.xScale, table.PrtScr.yScale = .8, .8;
+    -- table.PrtScr.alpha = 1;
 
     if table.scene then
         table.scene:insert(table.PrtScr)
@@ -67,24 +76,9 @@ local snapShotListener = function ( event )
         transition=easing.inSine
     } );
     
-    -- local PrtCtn = display.newContainer(table.scene, shutter.width, shutter.height);
-    -- PrtCtn.x, PrtCtn.y = shutter.x, shutter.y;
-
-    -- PrtScr.x, PrtScr.y = PrtScr.x - shutter.x,  PrtScr.y - shutter.y;
-    -- PrtCtn:insert( PrtScr, true );
-    -- PrtCtn:translate(140, 0);
-
-    -- local pointerMarker = display.newCircle(event.x , event.y, 50 );
-    -- pointerMarker.fill = {0,0,0, 0};
-    -- pointerMarker.stroke = {1,0,0};
-    -- pointerMarker.strokeWidth = 10;
-    -- PrtCtn:insert(pointerMarker);
-
-    -- PrtCtn:scale(.3,.3);
-    
-    table.PrtScr:addEventListener("tap", function (event) 
-        display.remove( event.target );
-    end);
+    -- table.PrtScr:addEventListener("tap", function (event) 
+    --     display.remove( event.target );
+    -- end);
 end
 
 table.rectShutter:addEventListener("tap", snapShotListener);
