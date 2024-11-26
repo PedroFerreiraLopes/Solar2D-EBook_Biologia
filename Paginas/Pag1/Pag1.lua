@@ -59,6 +59,7 @@ function scene:create( event )
     foregroundGroup:insert( nextButton );
 
     botoes.changeNavListener(prevButton, composer, "Paginas.Pag1.TextPage");
+    botoes.changeNavListener(nextButton, composer, "Paginas.Pag2.TextPage");
 
     local rectShutter, captureTable = snapShot.createElements(backgroundGroup, foregroundGroup);
 

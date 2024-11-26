@@ -18,19 +18,40 @@ local scene = composer.newScene()
 function scene:create( event )
  
     local sceneGroup = self.view
-    -- Code here runs when the scene is first created but has not yet appeared on screen
-    local ContraCapa = display.newImage( sceneGroup, "assets/ContraCapa/contraCapa.png", display.contentCenterX, display.contentCenterY)
 
-    local restartButton = display.newImage( sceneGroup, "assets/ContraCapa/restartButton.png");
-    restartButton.anchorX, restartButton.anchorY = 0, 0;
-    restartButton.x, restartButton.y = 216, 742;
-    local transitionOptions = {
-        effect = "flip",
-        time = 600,
+    local botoes = require("Botoes");
+    -- Code here runs when the scene is first created but has not yet appeared on screen
+    local backgroundGroup = display.newGroup();
+    sceneGroup:insert( backgroundGroup );
+
+    local background = display.newImage( backgroundGroup, "assets/Ambient/textBackground.png");
+    background.anchorX, background.anchorY = 0, 0;
+
+    local text = display.newImage( backgroundGroup, "assets/Pag4/text1.png");
+    text.anchorX, text.anchorY = 0, 0;
+    text.x, text.y = 30, 130;
+    -- BUTTONS AREA
+    local foregroundGroup = display.newGroup();
+    sceneGroup:insert( foregroundGroup );
+
+    local prevButton, nextButton = botoes.createNavButtons();
+
+    local nextDownSlide = {
+        effect = "slideUp",
+        time = 500,
     }
-    restartButton:addEventListener("tap", function (event) 
-        composer.gotoScene( "Paginas.Capa.Capa", transitionOptions )
-    end);
+
+    botoes.changeNavListener(prevButton, composer, "Paginas.Pag3.TextPage");
+    botoes.changeNavListener(nextButton, composer, "Paginas.Pag4.TextPage2", nextDownSlide);
+
+    foregroundGroup:insert( prevButton );
+    foregroundGroup:insert( nextButton );
+
+    -- This is a TABLE, containing (1) Group, (2) SoundOn obj and (3) SoundOff obj
+    local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
+    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/PLACEHOLDER.mp3");
+    foregroundGroup:insert( soundButtonGroup );
+
 end
  
  
@@ -45,6 +66,7 @@ function scene:show( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
+        composer.removeHidden();
  
     end
 end
@@ -61,7 +83,7 @@ function scene:hide( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
-        composer.removeHidden();
+        audio.stop( 1 );
  
     end
 end

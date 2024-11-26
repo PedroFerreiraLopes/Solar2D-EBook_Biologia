@@ -17,7 +17,19 @@ local scene = composer.newScene()
 -- create()
 function scene:create( event )
  
+    local lion = require("Animals.Lion.Lion");
+    local giraffe = require("Animals.Giraffe.Giraffe");
+
     local sceneGroup = self.view
+
+    local backgroundGroup = display.newGroup();
+    sceneGroup:insert( backgroundGroup );
+
+    local background = display.newImage( backgroundGroup, "assets/Pag1/background.png");
+    background.anchorX, background.anchorY = 0, 0;
+
+    local foregroundGroup = display.newGroup();
+    sceneGroup:insert( foregroundGroup );
     -- Code here runs when the scene is first created but has not yet appeared on screen
  
 end
