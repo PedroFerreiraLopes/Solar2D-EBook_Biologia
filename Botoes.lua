@@ -79,7 +79,7 @@ botoes.setSound = function(button, soundPath)
         end
     end
 
-    button[1]:addEventListener("tap", soundEvent)
+    button[1]:addEventListener("tap", soundEvent);
 
     audio.setVolume( 0.5, { channel=1 } )
     timer.performWithDelay( 1000, function ()

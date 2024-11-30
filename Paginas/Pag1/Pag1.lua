@@ -41,14 +41,15 @@ function scene:create( event )
     local background = display.newImage( backgroundGroup, "assets/Pag1/background.png");
     background.anchorX, background.anchorY = 0, 0;
 
+    local lion_sprite, lion_sequence = lion.createSprite();
     local giraffe_sprite, giraffe_sequence = giraffe.createSprite();
 
-    backgroundGroup:insert(lion.sprite);
+    backgroundGroup:insert(lion_sprite);
     backgroundGroup:insert(giraffe_sprite);
 
     -- lion.sprite:setFrame(4);
-    lion.sprite:play();
-    lion.sprite.x, lion.sprite.y = lion.sprite.width, lion.sprite.height;
+    lion_sprite:play();
+    lion_sprite.x, lion_sprite.y = lion_sprite.width, lion_sprite.height;
     giraffe_sprite:play();
     giraffe_sprite.x, giraffe_sprite.y = 550, 650;
     -- giraffe.sprite.alpha = 0;
@@ -66,7 +67,7 @@ function scene:create( event )
     local rectShutter, captureTable = snapShot.createElements(backgroundGroup, foregroundGroup);
 
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
-    -- botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/TEST.mp3");
+    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag1.mp3");
     foregroundGroup:insert( soundButtonGroup );
 end
  

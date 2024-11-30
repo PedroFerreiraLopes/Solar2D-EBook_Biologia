@@ -190,7 +190,7 @@ function scene:create( event )
     botoes.changeNavListener(nextButton, composer, "Paginas.Pag5.TextPage");
 
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
-    -- botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/TEST.mp3");
+    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag4.mp3");
     foregroundGroup:insert( soundButtonGroup );
     -- Code here runs when the scene is first created but has not yet appeared on screen
  

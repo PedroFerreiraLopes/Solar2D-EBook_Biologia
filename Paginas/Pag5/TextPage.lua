@@ -49,7 +49,7 @@ function scene:create( event )
 
     -- This is a TABLE, containing (1) Group, (2) SoundOn obj and (3) SoundOff obj
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
-    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/PLACEHOLDER.mp3");
+    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag5Text1.mp3");
     foregroundGroup:insert( soundButtonGroup );
 
 end

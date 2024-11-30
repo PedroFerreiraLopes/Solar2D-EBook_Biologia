@@ -19,12 +19,20 @@ function scene:create( event )
  
     local sceneGroup = self.view
 
+    local botoes = require("Botoes");
+
     local Capa = display.newImage( sceneGroup, "assets/Capa.png", display.contentCenterX, display.contentCenterY)
+
+    local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
+    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Capa.mp3");
+    -- botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/TEST.mp3");
+    sceneGroup:insert( soundButtonGroup );
 
     local transitionOptions = {
         effect = "slideLeft",
         time = 600,
     }
+
     sceneGroup:addEventListener("tap", function (event) 
         composer.gotoScene( "Paginas.Pag1.TextPage", transitionOptions )
     end);
