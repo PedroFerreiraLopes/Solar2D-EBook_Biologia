@@ -65,62 +65,62 @@ function scene:create( event )
     local sceneGroup = self.view;
     -- Code here runs when the scene is first created but has not yet appeared on screen
  
-    local pokedex = display.newImage(sceneGroup, "assets/Pokedex/Pokedex.png");
-    pokedex.xScale, pokedex.yScale = CONST.pokedex.xScale, CONST.pokedex.yScale;
-    pokedex.x, pokedex.y = CONST.pokedex.x, CONST.pokedex.y;
+    -- local pokedex = display.newImage(sceneGroup, "assets/Pokedex/Pokedex.png");
+    -- pokedex.xScale, pokedex.yScale = CONST.pokedex.xScale, CONST.pokedex.yScale;
+    -- pokedex.x, pokedex.y = CONST.pokedex.x, CONST.pokedex.y;
 
-    local topText = {}
-    for i = 1,#topTextPath do
-        topText[i] = display.newImage( sceneGroup, topTextPath[i], display.contentCenterX, 19);
-        topText[i].anchorY = 0;
-        topText[i].isVisible = false
-    end
+    -- local topText = {}
+    -- for i = 1,#topTextPath do
+    --     topText[i] = display.newImage( sceneGroup, topTextPath[i], display.contentCenterX, 19);
+    --     topText[i].anchorY = 0;
+    --     topText[i].isVisible = false
+    -- end
 
-    local latText = {}
-    for i = 1,#latTextPath do
-        latText[i] = display.newImage( sceneGroup, latTextPath[i], 31, 215);
-        latText[i].anchorX, latText[i].anchorY = 0, 0;
-        latText[i].isVisible = false;
-    end
+    -- local latText = {}
+    -- for i = 1,#latTextPath do
+    --     latText[i] = display.newImage( sceneGroup, latTextPath[i], 31, 215);
+    --     latText[i].anchorX, latText[i].anchorY = 0, 0;
+    --     latText[i].isVisible = false;
+    -- end
 
-    local riverImageGroup = display.newGroup();
-    sceneGroup:insert( riverImageGroup);
+    -- local riverImageGroup = display.newGroup();
+    -- sceneGroup:insert( riverImageGroup);
 
-    local riverImage = {}
-    for i = 1,#riverImagePath do
-        riverImage[i] = display.newImage( riverImageGroup, riverImagePath[i], pokedex.x, CONST.pokedex.yBottomScreen);
-        riverImage[i].isVisible = false;
-    end
+    -- local riverImage = {}
+    -- for i = 1,#riverImagePath do
+    --     riverImage[i] = display.newImage( riverImageGroup, riverImagePath[i], pokedex.x, CONST.pokedex.yBottomScreen);
+    --     riverImage[i].isVisible = false;
+    -- end
 
-    changeTableVisibility(interactionCounter, topTextSequence, topText);
-    changeTableVisibility(interactionCounter, latTextSequence, latText);
-    changeTableVisibility(interactionCounter, riverImageSequence, riverImage);
+    -- changeTableVisibility(interactionCounter, topTextSequence, topText);
+    -- changeTableVisibility(interactionCounter, latTextSequence, latText);
+    -- changeTableVisibility(interactionCounter, riverImageSequence, riverImage);
 
-    local interactionTimer = timer.performWithDelay( 
-        2000, 
-        function () interactionEnabler = true end, 
-        1 
-    )
+    -- local interactionTimer = timer.performWithDelay( 
+    --     2000, 
+    --     function () interactionEnabler = true end, 
+    --     1 
+    -- )
 
-    riverImageGroup:addEventListener("tap", function (event) 
+    -- riverImageGroup:addEventListener("tap", function (event) 
 
-        if(interactionEnabler and interactionCounter < 4)then
-            interactionCounter = interactionCounter + 1;
+    --     if(interactionEnabler and interactionCounter < 4)then
+    --         interactionCounter = interactionCounter + 1;
 
-            changeTableVisibility(interactionCounter, topTextSequence, topText);
-            changeTableVisibility(interactionCounter, latTextSequence, latText);
-            changeTableVisibility(interactionCounter, riverImageSequence, riverImage);
+    --         changeTableVisibility(interactionCounter, topTextSequence, topText);
+    --         changeTableVisibility(interactionCounter, latTextSequence, latText);
+    --         changeTableVisibility(interactionCounter, riverImageSequence, riverImage);
 
-            interactionEnabler = false;
-            interactionTimer = timer.performWithDelay( 
-                2000, 
-                function () interactionEnabler = true end, 
-                1 
-            )
-        else
-            return true; 
-        end
-    end);
+    --         interactionEnabler = false;
+    --         interactionTimer = timer.performWithDelay( 
+    --             2000, 
+    --             function () interactionEnabler = true end, 
+    --             1 
+    --         )
+    --     else
+    --         return true; 
+    --     end
+    -- end);
 end
  
  
