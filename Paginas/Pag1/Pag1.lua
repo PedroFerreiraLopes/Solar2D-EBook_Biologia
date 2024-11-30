@@ -69,6 +69,10 @@ function scene:create( event )
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
     botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag1.mp3");
     foregroundGroup:insert( soundButtonGroup );
+
+    local instructionBox = display.newImage( foregroundGroup, "assets/Pag1/IntructionBox.png");
+    instructionBox.anchorX, instructionBox.anchorY = 0, 0;
+    instructionBox.x, instructionBox.y = 102, 894;
 end
  
  

@@ -15,6 +15,6 @@ local transitionOptions = {
     -- }
 }
 
-composer.gotoScene( "Paginas.Capa.Capa", transitionOptions )
+composer.gotoScene( "Paginas.Pag1.Pag1", transitionOptions )
 
 -- Your code here
