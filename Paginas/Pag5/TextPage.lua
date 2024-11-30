@@ -27,7 +27,7 @@ function scene:create( event )
     local background = display.newImage( backgroundGroup, "assets/Ambient/textBackground.png");
     background.anchorX, background.anchorY = 0, 0;
 
-    local text = display.newImage( backgroundGroup, "assets/Pag3/text.png");
+    local text = display.newImage( backgroundGroup, "assets/Pag5/text.png");
     text.anchorX, text.anchorY = 0, 0;
     text.x, text.y = 30, 130;
     -- BUTTONS AREA
@@ -36,8 +36,13 @@ function scene:create( event )
 
     local prevButton, nextButton = botoes.createNavButtons();
 
-    botoes.changeNavListener(prevButton, composer, "Paginas.Pag4.TextPage");
-    botoes.changeNavListener(nextButton, composer, "Paginas.ContraCapa.ContraCapa");
+    local nextDownSlide = {
+        effect = "slideUp",
+        time = 500,
+    }
+
+    botoes.changeNavListener(prevButton, composer, "Paginas.Pag4.Pag4");
+    botoes.changeNavListener(nextButton, composer, "Paginas.Pag5.TextPage2", nextDownSlide);
 
     foregroundGroup:insert( prevButton );
     foregroundGroup:insert( nextButton );

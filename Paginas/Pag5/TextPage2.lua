@@ -27,7 +27,7 @@ function scene:create( event )
     local background = display.newImage( backgroundGroup, "assets/Ambient/textBackground.png");
     background.anchorX, background.anchorY = 0, 0;
 
-    local text = display.newImage( backgroundGroup, "assets/Pag4/text2.png");
+    local text = display.newImage( backgroundGroup, "assets/Pag5/text2.png");
     text.anchorX, text.anchorY = 0, 0;
     text.x, text.y = 30, 130;
     -- BUTTONS AREA
@@ -41,8 +41,8 @@ function scene:create( event )
         time = 500,
     }
 
-    botoes.changeNavListener(prevButton, composer, "Paginas.Pag4.TextPage", prevTopSlide);
-    botoes.changeNavListener(nextButton, composer, "Paginas.Pag4.Pag4");
+    botoes.changeNavListener(prevButton, composer, "Paginas.Pag5.TextPage", prevTopSlide);
+    botoes.changeNavListener(nextButton, composer, "Paginas.Pag5.Pag5");
 
     foregroundGroup:insert( prevButton );
     foregroundGroup:insert( nextButton );
