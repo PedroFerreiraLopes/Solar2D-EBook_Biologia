@@ -1,6 +1,6 @@
-local composer = require( "composer" );
-
-local scene = composer.newScene();
+local composer = require( "composer" )
+ 
+local scene = composer.newScene()
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
@@ -19,55 +19,34 @@ function scene:create( event )
  
     local sceneGroup = self.view
 
-    local CONST = require("BookConstants");
-
-    local snapShot = require("Paginas.Pag1.SnapShot");
-
-    local lion = require("Animals.Lion.Lion");
-    local giraffe = require("Animals.Giraffe.Giraffe");
-
-    local inspect = require("inspect");
-
     local botoes = require("Botoes");
-
+    -- Code here runs when the scene is first created but has not yet appeared on screen
     local backgroundGroup = display.newGroup();
     sceneGroup:insert( backgroundGroup );
-    -- Code here runs when the scene is first created but has not yet appeared on screen
 
-    local placeholder = display.newImage(sceneGroup, "assets/Icon.png");
-    placeholder:scale(5,5);
-    placeholder.x, placeholder.y = display.contentCenterX, display.contentCenterY;
-
-    local background = display.newImage( backgroundGroup, "assets/Pag1/background.png");
+    local background = display.newImage( backgroundGroup, "assets/Ambient/textBackground.png");
     background.anchorX, background.anchorY = 0, 0;
 
-    local giraffe_sprite, giraffe_sequence = giraffe.createSprite();
-
-    backgroundGroup:insert(lion.sprite);
-    backgroundGroup:insert(giraffe_sprite);
-
-    -- lion.sprite:setFrame(4);
-    lion.sprite:play();
-    lion.sprite.x, lion.sprite.y = lion.sprite.width, lion.sprite.height;
-    giraffe_sprite:play();
-    giraffe_sprite.x, giraffe_sprite.y = 550, 650;
-    -- giraffe.sprite.alpha = 0;
-
+    local text = display.newImage( backgroundGroup, "assets/Pag4/text1.png");
+    text.anchorX, text.anchorY = 0, 0;
+    text.x, text.y = 30, 130;
+    -- BUTTONS AREA
     local foregroundGroup = display.newGroup();
     sceneGroup:insert( foregroundGroup );
 
     local prevButton, nextButton = botoes.createNavButtons();
+
+    botoes.changeNavListener(prevButton, composer, "Paginas.Pag3.TextPage");
+    botoes.changeNavListener(nextButton, composer, "Paginas.Pag4.TextPage2");
+
     foregroundGroup:insert( prevButton );
     foregroundGroup:insert( nextButton );
 
-    botoes.changeNavListener(prevButton, composer, "Paginas.Pag1.TextPage");
-    botoes.changeNavListener(nextButton, composer, "Paginas.Pag2.TextPage");
-
-    local rectShutter, captureTable = snapShot.createElements(backgroundGroup, foregroundGroup);
-
+    -- This is a TABLE, containing (1) Group, (2) SoundOn obj and (3) SoundOff obj
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
-    -- botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/TEST.mp3");
+    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/PLACEHOLDER.mp3");
     foregroundGroup:insert( soundButtonGroup );
+
 end
  
  
@@ -100,6 +79,7 @@ function scene:hide( event )
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
         audio.stop( 1 );
+ 
     end
 end
  
@@ -109,6 +89,7 @@ function scene:destroy( event )
  
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
+ 
 end
  
  
