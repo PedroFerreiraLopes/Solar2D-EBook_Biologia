@@ -81,7 +81,7 @@ botoes.setSound = function(button, soundPath)
 
     button[1]:addEventListener("tap", soundEvent);
 
-    audio.setVolume( 0.5, { channel=1 } )
+    audio.setVolume( 0.5, { channel=1 } ) -- IS NOT WORKING
     timer.performWithDelay( 1000, function ()
         audio.play( soundTrack, soundOptions );
         audio.fade( { channel=1, time=500, volume=1 } )

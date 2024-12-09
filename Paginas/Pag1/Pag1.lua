@@ -34,25 +34,22 @@ function scene:create( event )
     sceneGroup:insert( backgroundGroup );
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
-    local placeholder = display.newImage(sceneGroup, "assets/Icon.png");
-    placeholder:scale(5,5);
-    placeholder.x, placeholder.y = display.contentCenterX, display.contentCenterY;
-
     local background = display.newImage( backgroundGroup, "assets/Pag1/background.png");
     background.anchorX, background.anchorY = 0, 0;
 
     local lion_sprite, lion_sequence = lion.createSprite();
     local giraffe_sprite, giraffe_sequence = giraffe.createSprite();
 
-    backgroundGroup:insert(lion_sprite);
     backgroundGroup:insert(giraffe_sprite);
+    backgroundGroup:insert(lion_sprite);
 
     -- lion.sprite:setFrame(4);
-    lion_sprite:play();
-    lion_sprite.x, lion_sprite.y = lion_sprite.width, lion_sprite.height;
-    giraffe_sprite:play();
-    giraffe_sprite.x, giraffe_sprite.y = 550, 650;
     -- giraffe.sprite.alpha = 0;
+
+    local tree = display.newImage(backgroundGroup, "assets/Pag1/tree.png");
+    tree.anchorX, tree.anchorY = 0, 1;
+    tree.x, tree.y = 0, display.contentCenterY + 350;
+    tree.alpha = .65;
 
     local foregroundGroup = display.newGroup();
     sceneGroup:insert( foregroundGroup );
@@ -73,6 +70,117 @@ function scene:create( event )
     local instructionBox = display.newImage( foregroundGroup, "assets/Pag1/IntructionBox.png");
     instructionBox.anchorX, instructionBox.anchorY = 0, 0;
     instructionBox.x, instructionBox.y = 102, 894;
+
+    local resetActors = function()
+        lion_sprite:setSequence("run");
+        lion_sprite:play();
+        lion_sprite.x, lion_sprite.y = -lion_sprite.width, 820;
+        lion_sprite.xScale, lion_sprite.yScale = .5, .5;
+        giraffe_sprite:play();
+        giraffe_sprite.x, giraffe_sprite.y = 900, 800;
+        giraffe_sprite.xScale = -1;
+        giraffe_sprite.rotation = 0;
+    end
+
+    local giraffeToTree;
+    local lionRun;
+    local lionJumpX;
+    local lionJumpY1;
+    local lionJumpY2;
+    local giraffeTumble;
+    local lionCarryGiraffe;
+
+    giraffeToTree = function()
+        resetActors();
+        local transitionParams = {
+            x = tree.x + tree.width - 80,
+            delay = 1000,
+            time = 1500,
+            transition = easing.outSine,
+            onComplete = lionRun,
+        }
+        local transition = transition.to( giraffe_sprite, transitionParams );
+    end
+
+    lionRun = function()
+        local transitionParams = {
+            x = giraffe_sprite.x - (giraffe_sprite.width + 80),
+            delay = 1000,
+            time = 1500,
+            transition = easing.inSine,
+            onComplete = lionJumpX,
+        }
+        local transition = transition.to( lion_sprite, transitionParams );
+    end
+
+    lionJumpX = function()
+        lionJumpY1();
+        local transitionParams = {
+            x = giraffe_sprite.x + 80,
+            time = 600,
+            transition = easing.linear,
+            onComplete = nil,
+        }
+        local transition = transition.to( lion_sprite, transitionParams );
+    end
+
+    lionJumpY1 = function()
+        local transitionParams = {
+            y = 820 - 150,
+            time = 300,
+            transition = easing.outCubic,
+            onComplete = lionJumpY2,
+        }
+        local transition = transition.to( lion_sprite, transitionParams );
+    end
+
+    lionJumpY2 = function()
+        giraffeTumble();
+        local transitionParams = {
+            y = 820,
+            time = 300,
+            transition = easing.inCubic
+        }
+        local transition = transition.to( lion_sprite, transitionParams );
+    end
+
+    giraffeTumble = function()
+        giraffe_sprite:pause();
+        lion_sprite:pause();
+        local transitionParams = {
+            rotation = 90,
+            time = 2000,
+            transition = easing.outBounce,
+            onComplete = lionCarryGiraffe,
+        }
+        local transition = transition.to( giraffe_sprite, transitionParams );
+    end        
+
+    local carryCounter = 10;
+    lionCarryGiraffe = function()
+        if(carryCounter <= 0)then
+            carryCounter = 10;
+            giraffeToTree();
+        else
+            print( "CARRY COUNTER" );
+            print( carryCounter );
+            carryCounter = carryCounter - 1;
+
+            lion_sprite:setSequence("carry");
+            lion_sprite:play();
+            local transitionParams = {
+                x = - 80,
+                time = 1000,
+                transition = easing.outBack,
+            }
+            local transitionGiraffe = transition.moveBy( giraffe_sprite, transitionParams );
+            local transitionLion = transition.moveBy( lion_sprite, transitionParams );
+
+            timer.performWithDelay( 1000, function() return lionCarryGiraffe() end );
+        end
+    end        
+
+    giraffeToTree();
 end
  
  

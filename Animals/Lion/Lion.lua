@@ -47,6 +47,14 @@ lion.createSprite = function ()
             loopCount = 0,
             loopDirection = "forward"
         },
+        {
+            name = "carry",
+            sheet = sheet_running,
+            frames = {4, 3, 2, 2, 1, 1, 1, 1},
+            time = frame_time * 2,
+            loopCount = 0,
+            loopDirection = "forward"
+        },
     };
 
     local sprite = display.newSprite( sheet_running, sequences );

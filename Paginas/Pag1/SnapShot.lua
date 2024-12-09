@@ -51,7 +51,9 @@ table.createElements = function (backGroup, frontGroup)
         -- local PrtScr = {};
         -- PrtScr.alpha = 0;
     
-        transition.cancel( transition_rectShutter );
+        if(transition_rectShutter)then
+            transition.cancel( transition_rectShutter );
+        end
     
         -- Capture only within these bounds
         local captureBounds = {
@@ -72,8 +74,8 @@ table.createElements = function (backGroup, frontGroup)
                 captureTable[i].print = display.captureBounds(captureBounds);
                 captureTable[i].print.anchorX, captureTable[i].print.anchorY = 0, 0;
                 captureTable[i].print.x, captureTable[i].print.y = 187, 269;
-                captureTable[i].print.xScale = .8;
-                captureTable[i].print.yScale = .8;
+                captureTable[i].print.xScale = .81;
+                captureTable[i].print.yScale = .81;
                 captureTable[i].polaroidGroup:insert(captureTable[i].print);
                 print(  );
                 captureTable[i].polaroidGroup.isVisible = true;
