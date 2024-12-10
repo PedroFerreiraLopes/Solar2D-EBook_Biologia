@@ -77,10 +77,12 @@ function scene:create( event )
         lion_sprite:play();
         lion_sprite.x, lion_sprite.y = -lion_sprite.width, 820;
         lion_sprite.xScale, lion_sprite.yScale = .5, .5;
+        lion_sprite.isVisible = false;
         giraffe_sprite:play();
         giraffe_sprite.x, giraffe_sprite.y = 900, 800;
         giraffe_sprite.xScale = -1;
         giraffe_sprite.rotation = 0;
+        giraffe_sprite.isVisible = false;
     end
 
     local giraffeToTree;
@@ -93,22 +95,32 @@ function scene:create( event )
 
     giraffeToTree = function()
         resetActors();
+        giraffe_sprite.isVisible = true;
         local transitionParams = {
             x = tree.x + tree.width - 80,
             delay = 1000,
             time = 1500,
             transition = easing.outSine,
-            onComplete = lionRun,
         }
         local transition = transition.to( giraffe_sprite, transitionParams );
 
-        timer.performWithDelay( 2000, function() 
-            rectShutter.interactionCounter = 1;
-            print( rectShutter.interactionCounter );
-        end )
+        timer.performWithDelay( 
+            transitionParams.time + transitionParams.delay - 500, 
+            function() 
+                rectShutter.interactionCounter = 1;
+            end 
+        );
+
+        timer.performWithDelay( 
+            transitionParams.time + transitionParams.delay + 2000, 
+            function() 
+                lionRun()
+            end 
+        )
     end
 
     lionRun = function()
+        lion_sprite.isVisible = true;
         local transitionParams = {
             x = giraffe_sprite.x - (giraffe_sprite.width + 80),
             delay = 1000,
@@ -131,6 +143,7 @@ function scene:create( event )
     end
 
     lionJumpY1 = function()
+        rectShutter.interactionCounter = 2;
         local transitionParams = {
             y = 820 - 150,
             time = 300,
@@ -165,11 +178,11 @@ function scene:create( event )
     local carryCounter = 10;
     lionCarryGiraffe = function()
         if(carryCounter <= 0)then
+            rectShutter.interactionCounter = 0;
+
             carryCounter = 10;
             giraffeToTree();
         else
-            print( "CARRY COUNTER" );
-            print( carryCounter );
             carryCounter = carryCounter - 1;
 
             lion_sprite:setSequence("carry");
@@ -182,7 +195,12 @@ function scene:create( event )
             local transitionGiraffe = transition.moveBy( giraffe_sprite, transitionParams );
             local transitionLion = transition.moveBy( lion_sprite, transitionParams );
 
-            timer.performWithDelay( 1000, function() return lionCarryGiraffe() end );
+            timer.performWithDelay( 
+                1000, 
+                function() 
+                    return lionCarryGiraffe() 
+                end 
+            );
         end
     end        
 
@@ -214,6 +232,7 @@ function scene:hide( event )
     local phase = event.phase
  
     if ( phase == "will" ) then
+        transition.cancel();
         -- Code here runs when the scene is on screen (but is about to go off screen)
  
     elseif ( phase == "did" ) then

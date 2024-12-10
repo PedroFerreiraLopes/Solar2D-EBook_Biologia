@@ -2,6 +2,7 @@ local inspect = require("inspect");
 local PolaroidTransition = require("Paginas.Pag1.PolaroidTransition");
 
 local giraffe = require("Animals.Giraffe.Giraffe");
+local lion = require("Animals.Lion.Lion");
 
 local table = {};
 
@@ -20,9 +21,14 @@ table.createElements = function (backGroup, frontGroup)
     for i=1, #captureTable do
 
         captureTable[i].polaroidGroup = display.newGroup();
-        captureTable[i].polaroidPaper = display.newImage("assets/Pag1/SnapShot/PolaroidPaper.png");
-        captureTable[i].foodChain = {};
+        captureTable[i].polaroidPaper = display.newImage(captureTable[i].polaroidGroup, "assets/Pag1/SnapShot/PolaroidPaper.png");
+        
         captureTable[i].print = {};
+
+        captureTable[i].foodChain = display.newGroup();
+        captureTable[i].polaroidGroup:insert(captureTable[i].foodChain);
+        captureTable[i].livingBeing1 = {};
+        captureTable[i].livingBeing2 = {};
 
         frontGroup:insert(captureTable[i].polaroidGroup);
         inspect(captureTable[i]);
@@ -30,41 +36,52 @@ table.createElements = function (backGroup, frontGroup)
         captureTable[i].polaroidPaper.anchorY = 0;
         captureTable[i].polaroidPaper.x = 173;
         captureTable[i].polaroidPaper.y = 247;
-        captureTable[i].polaroidGroup:insert(captureTable[i].polaroidPaper);
         captureTable[i].polaroidGroup.isVisible = false;
         
         captureTable[i].finalX = -2 - 173 + (captureTable[i].polaroidPaper.width * .2);
         captureTable[i].finalY = 40 - 247 + ((i-1) *280) + (captureTable[i].polaroidPaper.height * .2);
+
+        captureTable[i].arrow = display.newImage( captureTable[i].foodChain, "assets/Arrow.png" );
+        captureTable[i].arrow.x = captureTable[i].polaroidPaper.x + captureTable[i].polaroidPaper.width/2 + 10;
+        captureTable[i].arrow.y = captureTable[i].polaroidPaper.y + captureTable[i].polaroidPaper.height - 72;
+
+        if(i == 1)then
+            captureTable[i].livingBeing1 = display.newImage( captureTable[i].foodChain, "assets/Grass.png" );
+            captureTable[i].livingBeing1.x = captureTable[i].polaroidPaper.x + captureTable[i].livingBeing1.width/2 + 15;
+            captureTable[i].livingBeing1.y = captureTable[i].arrow.y;
+
+            captureTable[i].livingBeing2 = giraffe.createSprite();
+            captureTable[i].foodChain:insert(captureTable[i].livingBeing2);
+            captureTable[i].livingBeing2.x = 520;
+            captureTable[i].livingBeing2.y = captureTable[i].polaroidPaper.y + captureTable[i].polaroidPaper.height;
+            captureTable[i].livingBeing2.xScale, captureTable[i].livingBeing2.yScale = .45, .45;
+        elseif(i == 2)then
+            captureTable[i].livingBeing1 = giraffe.createSprite();
+            captureTable[i].foodChain:insert(captureTable[i].livingBeing1);
+            captureTable[i].livingBeing1.x = captureTable[i].polaroidPaper.x + captureTable[i].livingBeing1.width/4;
+            captureTable[i].livingBeing1.y = captureTable[i].polaroidPaper.y + captureTable[i].polaroidPaper.height;
+            captureTable[i].livingBeing1.xScale, captureTable[i].livingBeing1.yScale = .45, .45;
+
+            captureTable[i].livingBeing2 = lion.createSprite();
+            captureTable[i].foodChain:insert(captureTable[i].livingBeing2);
+            captureTable[i].livingBeing2.x = 525;
+            captureTable[i].livingBeing2.y = captureTable[i].polaroidPaper.y + captureTable[i].polaroidPaper.height - 30;
+            captureTable[i].livingBeing2.xScale, captureTable[i].livingBeing2.yScale = .28, .28;
+        end
     end
-
-    captureTable[1].livingBeing1 = display.newImage( captureTable[1].polaroidGroup, "assets/Grass.png" );
-    captureTable[1].livingBeing1.x = captureTable[1].polaroidPaper.x + captureTable[1].livingBeing1.width/2 + 15;
-    captureTable[1].livingBeing1.y = captureTable[1].polaroidPaper.y + captureTable[1].polaroidPaper.height - captureTable[1].livingBeing1.height/2;
-
-    captureTable[1].arrow = display.newImage( captureTable[1].polaroidGroup, "assets/Arrow.png" );
-    captureTable[1].arrow.x = captureTable[1].polaroidPaper.x + captureTable[1].polaroidPaper.width/2 + 10;
-    captureTable[1].arrow.y = captureTable[1].livingBeing1.y;
-
-    captureTable[1].livingBeing2 = giraffe.createSprite();
-    captureTable[1].polaroidGroup:insert(captureTable[1].livingBeing2);
-    captureTable[1].livingBeing2.x = 520;
-    captureTable[1].livingBeing2.y = captureTable[1].polaroidPaper.y + captureTable[1].polaroidPaper.height;
-    captureTable[1].livingBeing2.xScale, captureTable[1].livingBeing2.yScale = .45, .45;
 
     local resetAlphaListener_rectShutter = function (obj)
         obj.alpha = 0.01;
     end;
     
-    local snapShotListener = function ( event )
+    local snapShotListener;
+    snapShotListener = function ( event )
     
         if(event.y < 121 or event.y > 899)then
             return true;
         end
     
         local shutter = event.target;
-        -- Hide PrtScr, to perfect image capture
-        -- local PrtScr = {};
-        -- PrtScr.alpha = 0;
     
         if(transition_rectShutter)then
             transition.cancel( transition_rectShutter );
@@ -87,16 +104,38 @@ table.createElements = function (backGroup, frontGroup)
         for i=1, #captureTable do 
             if(shutter.interactionCounter)then
                 if(shutter.interactionCounter == i and next(captureTable[i].print) == nil)then
+                    for i=1, #captureTable do 
+                        captureTable[i].polaroidGroup.isVisible = false;
+                    end
+                    shutter.isVisible = false;
+
                     captureTable[i].print = display.captureBounds(captureBounds);
+
+                    for i=1, #captureTable do 
+                        if(next(captureTable[i].print))then
+                            captureTable[i].polaroidGroup.isVisible = true;    
+                        end
+                        captureTable[shutter.interactionCounter].polaroidGroup.isVisible = true;
+                    end
+                    shutter.isVisible = true;
+
                     captureTable[i].print.anchorX, captureTable[i].print.anchorY = 0, 0;
                     captureTable[i].print.x, captureTable[i].print.y = 187, 269;
                     captureTable[i].print.xScale = .81;
                     captureTable[i].print.yScale = .81;
                     captureTable[i].polaroidGroup:insert(captureTable[i].print);
                     captureTable[i].polaroidGroup.isVisible = true;
-                    PolaroidTransition(
+                    local delayTime = PolaroidTransition(
                         captureTable[i].polaroidGroup, captureTable[i].finalX,
-                        captureTable[i].finalY)
+                        captureTable[i].finalY
+                    );
+                    shutter:removeEventListener("tap", snapShotListener);
+                    timer.performWithDelay( 
+                        delayTime+100, 
+                        function()
+                            shutter:addEventListener("tap", snapShotListener);
+                        end
+                    );
                     break;
                 end
             end

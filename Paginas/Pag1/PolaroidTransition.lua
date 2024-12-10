@@ -19,6 +19,8 @@ local transition = function (element, finalX, finalY, time, delay)
         transition = easing.inExpo
     }
     local scaleTransition = transition.to(element,scaleParams);
+
+    return time+delay;
 end
 
 return transition;
