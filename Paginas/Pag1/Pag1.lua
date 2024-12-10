@@ -232,12 +232,16 @@ function scene:hide( event )
     local phase = event.phase
  
     if ( phase == "will" ) then
-        transition.cancel();
+        print( "WILL HIDE" );
+        timer.cancelAll();
+        transition.cancel(sceneGroup);
         -- Code here runs when the scene is on screen (but is about to go off screen)
  
     elseif ( phase == "did" ) then
         -- Code here runs immediately after the scene goes entirely off screen
         audio.stop( 1 );
+
+        transition.cancel(sceneGroup);
     end
 end
  
@@ -247,6 +251,8 @@ function scene:destroy( event )
  
     local sceneGroup = self.view
     -- Code here runs prior to the removal of scene's view
+
+    transition.cancel(sceneGroup);
 end
  
  
