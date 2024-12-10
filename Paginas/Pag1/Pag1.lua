@@ -62,6 +62,7 @@ function scene:create( event )
     botoes.changeNavListener(nextButton, composer, "Paginas.Pag2.TextPage");
 
     local rectShutter, captureTable = snapShot.createElements(backgroundGroup, foregroundGroup);
+    rectShutter.interactionCounter = 0;
 
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
     botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag1.mp3");
@@ -100,6 +101,11 @@ function scene:create( event )
             onComplete = lionRun,
         }
         local transition = transition.to( giraffe_sprite, transitionParams );
+
+        timer.performWithDelay( 2000, function() 
+            rectShutter.interactionCounter = 1;
+            print( rectShutter.interactionCounter );
+        end )
     end
 
     lionRun = function()

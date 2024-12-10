@@ -1,6 +1,8 @@
 local inspect = require("inspect");
 local PolaroidTransition = require("Paginas.Pag1.PolaroidTransition");
 
+local giraffe = require("Animals.Giraffe.Giraffe");
+
 local table = {};
 
 table.createElements = function (backGroup, frontGroup)
@@ -33,8 +35,21 @@ table.createElements = function (backGroup, frontGroup)
         
         captureTable[i].finalX = -2 - 173 + (captureTable[i].polaroidPaper.width * .2);
         captureTable[i].finalY = 40 - 247 + ((i-1) *280) + (captureTable[i].polaroidPaper.height * .2);
-        captureTable[i].transitionSignal = false;
     end
+
+    captureTable[1].livingBeing1 = display.newImage( captureTable[1].polaroidGroup, "assets/Grass.png" );
+    captureTable[1].livingBeing1.x = captureTable[1].polaroidPaper.x + captureTable[1].livingBeing1.width/2 + 15;
+    captureTable[1].livingBeing1.y = captureTable[1].polaroidPaper.y + captureTable[1].polaroidPaper.height - captureTable[1].livingBeing1.height/2;
+
+    captureTable[1].arrow = display.newImage( captureTable[1].polaroidGroup, "assets/Arrow.png" );
+    captureTable[1].arrow.x = captureTable[1].polaroidPaper.x + captureTable[1].polaroidPaper.width/2 + 10;
+    captureTable[1].arrow.y = captureTable[1].livingBeing1.y;
+
+    captureTable[1].livingBeing2 = giraffe.createSprite();
+    captureTable[1].polaroidGroup:insert(captureTable[1].livingBeing2);
+    captureTable[1].livingBeing2.x = 520;
+    captureTable[1].livingBeing2.y = captureTable[1].polaroidPaper.y + captureTable[1].polaroidPaper.height;
+    captureTable[1].livingBeing2.xScale, captureTable[1].livingBeing2.yScale = .45, .45;
 
     local resetAlphaListener_rectShutter = function (obj)
         obj.alpha = 0.01;
@@ -70,19 +85,20 @@ table.createElements = function (backGroup, frontGroup)
         -- PrtScr.xScale, PrtScr.yScale = .8, .8;
 
         for i=1, #captureTable do 
-            if(next(captureTable[i].print) == nil)then
-                captureTable[i].print = display.captureBounds(captureBounds);
-                captureTable[i].print.anchorX, captureTable[i].print.anchorY = 0, 0;
-                captureTable[i].print.x, captureTable[i].print.y = 187, 269;
-                captureTable[i].print.xScale = .81;
-                captureTable[i].print.yScale = .81;
-                captureTable[i].polaroidGroup:insert(captureTable[i].print);
-                print(  );
-                captureTable[i].polaroidGroup.isVisible = true;
-                PolaroidTransition(
-                    captureTable[i].polaroidGroup, captureTable[i].finalX,
-                    captureTable[i].finalY)
-                break;
+            if(shutter.interactionCounter)then
+                if(shutter.interactionCounter == i and next(captureTable[i].print) == nil)then
+                    captureTable[i].print = display.captureBounds(captureBounds);
+                    captureTable[i].print.anchorX, captureTable[i].print.anchorY = 0, 0;
+                    captureTable[i].print.x, captureTable[i].print.y = 187, 269;
+                    captureTable[i].print.xScale = .81;
+                    captureTable[i].print.yScale = .81;
+                    captureTable[i].polaroidGroup:insert(captureTable[i].print);
+                    captureTable[i].polaroidGroup.isVisible = true;
+                    PolaroidTransition(
+                        captureTable[i].polaroidGroup, captureTable[i].finalX,
+                        captureTable[i].finalY)
+                    break;
+                end
             end
         end
     
@@ -103,7 +119,7 @@ table.createElements = function (backGroup, frontGroup)
     
     rectShutter:addEventListener("tap", snapShotListener);
 
-    return rectShutter, captureTable;
+    return rectShutter, captureTable, interactionCounter;
 end
 
 table.rectShutter = display.newRect(0, 0, display.contentWidth, display.contentHeight);
