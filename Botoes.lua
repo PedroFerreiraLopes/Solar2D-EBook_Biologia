@@ -21,10 +21,10 @@ botoes.createNavButtons = function()
 end
 
 botoes.changeNavListener = function (button, composerPack, scenePath, options)
+    options = options or button._gotoOptions;
     local buttonEvent = function ()
         composerPack.gotoScene(scenePath, options)
     end
-    options = options or button._gotoOptions;
     button:addEventListener("tap", buttonEvent)
 end
 
