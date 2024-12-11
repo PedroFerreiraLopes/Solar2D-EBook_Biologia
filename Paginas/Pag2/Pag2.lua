@@ -16,9 +16,53 @@ local scene = composer.newScene()
  
 -- create()
 function scene:create( event )
+    transition.cancel();
  
     local sceneGroup = self.view
+
+    local botoes = require("Botoes");
+    local snapShot = require("Paginas.Pag1.SnapShot");
+    local inspect = require("inspect");
     -- Code here runs when the scene is first created but has not yet appeared on screen
+    local backgroundGroup = display.newGroup();
+    sceneGroup:insert( backgroundGroup );
+
+    local background = display.newImage( backgroundGroup, "assets/Pag1/background.png");
+    background.anchorX, background.anchorY = 0, 0;
+
+    -- BUTTONS AREA
+    local foregroundGroup = display.newGroup();
+    sceneGroup:insert( foregroundGroup );
+
+    local photos = {};
+    if(event.params)then
+        if(event.params.photos)then
+            photos = event.params.photos or {};
+        end
+    else
+        _, photos = snapShot.createElements(backgroundGroup, foregroundGroup);
+    end
+
+    for i=1, #photos do
+        print( inspect(photos[i]) );
+        photos[i].polaroidGroup.xScale, photos[i].polaroidGroup.yScale = photos[i].finalScale, photos[i].finalScale;
+        photos[i].polaroidGroup.x, photos[i].polaroidGroup.y = photos[i].finalX, photos[i].finalY;
+        photos[i].polaroidGroup.isVisible = true;
+        foregroundGroup:insert(photos[i].polaroidGroup);
+    end
+
+    local prevButton, nextButton = botoes.createNavButtons();
+
+    botoes.changeNavListener(prevButton, composer, "Paginas.Pag2.TextPage");
+    botoes.changeNavListener(nextButton, composer, "Paginas.Pag3.TextPage");
+
+    foregroundGroup:insert( prevButton );
+    foregroundGroup:insert( nextButton );
+
+    -- This is a TABLE, containing (1) Group, (2) SoundOn obj and (3) SoundOff obj
+    local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
+    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag2Text.mp3");
+    foregroundGroup:insert( soundButtonGroup );
  
 end
  

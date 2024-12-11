@@ -36,7 +36,7 @@ function scene:create( event )
 
     local prevButton, nextButton = botoes.createNavButtons();
 
-    botoes.changeNavListener(prevButton, composer, "Paginas.Pag2.TextPage");
+    botoes.changeNavListener(prevButton, composer, "Paginas.Pag2.Pag2");
     botoes.changeNavListener(nextButton, composer, "Paginas.Pag4.TextPage");
 
     foregroundGroup:insert( prevButton );

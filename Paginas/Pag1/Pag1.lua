@@ -58,11 +58,19 @@ function scene:create( event )
     foregroundGroup:insert( prevButton );
     foregroundGroup:insert( nextButton );
 
-    botoes.changeNavListener(prevButton, composer, "Paginas.Pag1.TextPage");
-    botoes.changeNavListener(nextButton, composer, "Paginas.Pag2.TextPage");
-
     local rectShutter, captureTable = snapShot.createElements(backgroundGroup, foregroundGroup);
     rectShutter.interactionCounter = 0;
+
+    options_nextButton = {
+        effect = "slideLeft",
+        time = 500,
+        params = {
+            photos = captureTable
+        }
+    }
+
+    botoes.changeNavListener(prevButton, composer, "Paginas.Pag1.TextPage");
+    botoes.changeNavListener(nextButton, composer, "Paginas.Pag2.TextPage", options_nextButton);
 
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
     botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag1.mp3");
@@ -178,11 +186,15 @@ function scene:create( event )
     local carryCounter = 10;
     lionCarryGiraffe = function()
         if(carryCounter <= 0)then
-            rectShutter.interactionCounter = 0;
-
             carryCounter = 10;
+
             giraffeToTree();
+
         else
+            if(carryCounter < 3)then
+                rectShutter.interactionCounter = 0;
+            end    
+            
             carryCounter = carryCounter - 1;
 
             lion_sprite:setSequence("carry");
@@ -232,7 +244,6 @@ function scene:hide( event )
     local phase = event.phase
  
     if ( phase == "will" ) then
-        print( "WILL HIDE" );
         timer.cancelAll();
         transition.cancel(sceneGroup);
         -- Code here runs when the scene is on screen (but is about to go off screen)

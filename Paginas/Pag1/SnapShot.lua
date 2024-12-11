@@ -37,7 +37,8 @@ table.createElements = function (backGroup, frontGroup)
         captureTable[i].polaroidPaper.x = 173;
         captureTable[i].polaroidPaper.y = 247;
         captureTable[i].polaroidGroup.isVisible = false;
-        
+
+        captureTable[i].finalScale = .4; -- For BOTH dimensions.
         captureTable[i].finalX = -2 - 173 + (captureTable[i].polaroidPaper.width * .2);
         captureTable[i].finalY = 40 - 247 + ((i-1) *280) + (captureTable[i].polaroidPaper.height * .2);
 
@@ -55,6 +56,11 @@ table.createElements = function (backGroup, frontGroup)
             captureTable[i].livingBeing2.x = 520;
             captureTable[i].livingBeing2.y = captureTable[i].polaroidPaper.y + captureTable[i].polaroidPaper.height;
             captureTable[i].livingBeing2.xScale, captureTable[i].livingBeing2.yScale = .45, .45;
+
+            -- Pag2 REFERENCE
+            -- captureTable[i].polaroidGroup.isVisible = true;
+            -- captureTable[i].polaroidGroup.xScale, captureTable[i].polaroidGroup.yScale = .4, .4;
+            -- captureTable[i].polaroidGroup.x, captureTable[i].polaroidGroup.y = captureTable[i].finalX, captureTable[i].finalY;
         elseif(i == 2)then
             captureTable[i].livingBeing1 = giraffe.createSprite();
             captureTable[i].foodChain:insert(captureTable[i].livingBeing1);

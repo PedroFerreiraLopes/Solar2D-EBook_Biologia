@@ -16,8 +16,20 @@ local scene = composer.newScene()
  
 -- create()
 function scene:create( event )
+    transition.cancel();
  
     local sceneGroup = self.view
+
+    local photos = {};
+    if(event.params)then
+        if(event.params.photos)then
+            photos = event.params.photos or {}; 
+        end
+    end
+
+    for i=1, #photos do
+        sceneGroup:insert(photos[i].polaroidGroup);
+    end
 
     local botoes = require("Botoes");
     -- Code here runs when the scene is first created but has not yet appeared on screen
@@ -35,9 +47,16 @@ function scene:create( event )
     sceneGroup:insert( foregroundGroup );
 
     local prevButton, nextButton = botoes.createNavButtons();
+    options_nextButton = {
+        effect = "slideLeft",
+        time = 500,
+        params = {
+            photos = photos
+        }
+    }
 
     botoes.changeNavListener(prevButton, composer, "Paginas.Pag1.Pag1");
-    botoes.changeNavListener(nextButton, composer, "Paginas.Pag3.TextPage");
+    botoes.changeNavListener(nextButton, composer, "Paginas.Pag2.Pag2", options_nextButton);
 
     foregroundGroup:insert( prevButton );
     foregroundGroup:insert( nextButton );
