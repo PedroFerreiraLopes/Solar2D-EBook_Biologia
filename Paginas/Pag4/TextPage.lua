@@ -42,7 +42,7 @@ function scene:create( event )
         time = 500,
     }
 
-    botoes.changeNavListener(prevButton, composer, "Paginas.Pag3.TextPage");
+    botoes.changeNavListener(prevButton, composer, "Paginas.Pag3.Pag3");
     botoes.changeNavListener(nextButton, composer, "Paginas.Pag4.TextPage2", nextDownSlide);
 
     foregroundGroup:insert( prevButton );
