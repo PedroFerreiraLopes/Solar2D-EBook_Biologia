@@ -16,6 +16,7 @@ local scene = composer.newScene()
  
 -- create()
 function scene:create( event )
+    transition.cancel();
  
     local sceneGroup = self.view
 
@@ -42,7 +43,7 @@ function scene:create( event )
     }
 
     botoes.changeNavListener(prevButton, composer, "Paginas.Pag5.TextPage", prevTopSlide);
-    botoes.changeNavListener(nextButton, composer, "Paginas.Pag5.Pag5");
+    botoes.changeNavListener(nextButton, composer, "Paginas.ContraCapa.ContraCapa");
 
     foregroundGroup:insert( prevButton );
     foregroundGroup:insert( nextButton );

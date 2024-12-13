@@ -16,6 +16,7 @@ local scene = composer.newScene()
  
 -- create()
 function scene:create( event )
+    transition.cancel();
 
     local sceneGroup = self.view
 

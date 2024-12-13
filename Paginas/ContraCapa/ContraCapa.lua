@@ -16,6 +16,7 @@ local scene = composer.newScene()
  
 -- create()
 function scene:create( event )
+    transition.cancel();
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
