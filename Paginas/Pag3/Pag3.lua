@@ -22,6 +22,8 @@ function scene:create( event )
 
     local botoes = require("Botoes");
     local inspect = require("inspect");
+
+    local food_web = require("Paginas.Pag3.FoodWeb");
     -- Code here runs when the scene is first created but has not yet appeared on screen
 
     local backgroundGroup = display.newGroup();
@@ -44,8 +46,20 @@ function scene:create( event )
 
     -- This is a TABLE, containing (1) Group, (2) SoundOn obj and (3) SoundOff obj
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
-    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag3Text.mp3");
+    botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag3.mp3");
     foregroundGroup:insert( soundButtonGroup );
+
+    -- local fc_1 = display.newGroup();
+
+    -- local grass = display.newImage(fc_1, "assets/Grass.png" );
+    -- local giraffe = display.newImage(fc_1, "assets/Animals/Giraffe/jifaMask.png" );
+    -- local lion = display.newImage(fc_1, "assets/Animals/Lion/lionMask.png" );
+
+    -- for i = 1, fc_1.numChildren do
+    --     food_web.reduc_sprite(fc_1[i], 100);
+    -- end
+
+    local group_1 = food_web.createFoodWeb(backgroundGroup);
  
 end
  
