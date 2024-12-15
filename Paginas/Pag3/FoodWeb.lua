@@ -52,9 +52,9 @@ end
 table.createFoodWeb = function(backgroundGroup)
 
     local fc_1 = display.newGroup();
-    fc_1:insert(display.newImage( "assets/Grass.png" ));
-    fc_1:insert(display.newImage( "assets/Animals/Giraffe/jifaMask.png" ));
-    fc_1:insert(display.newImage( "assets/Animals/Lion/lionMask.png" ));
+    -- fc_1:insert(display.newImage( "assets/Grass.png" ));
+    -- fc_1:insert(display.newImage( "assets/Animals/Giraffe/jifaMask.png" ));
+    -- fc_1:insert(display.newImage( "assets/Animals/Lion/lionMask.png" ));
 
     local length_fc_1 = 0;
 
