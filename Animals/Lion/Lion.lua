@@ -133,7 +133,7 @@ lion.setOutlineBody = function(sprite, physics, inspect)
         -- physics.addBody( lionMask, "static", {outline=lionMaskOutline});
         local particleSystem = physics.newParticleSystem(
             {
-                filename = "assets/Icon.png",
+                filename = "assets/Pag4/blob.png",
                 imageRadius = 5.5,
                 radius = 1,
                 gravityScale = 0.001,

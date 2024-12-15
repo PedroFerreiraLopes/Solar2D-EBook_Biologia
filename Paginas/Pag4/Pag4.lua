@@ -193,6 +193,10 @@ function scene:create( event )
     local soundButtonGroup, soundOn, soundOff = botoes.createSoundButton();
     botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag4.mp3");
     foregroundGroup:insert( soundButtonGroup );
+
+    local instructionBox = display.newImage( foregroundGroup, "assets/Pag4/instructionBox.png");
+    instructionBox.anchorX, instructionBox.anchorY = 0, 0;
+    instructionBox.x, instructionBox.y = 102, 894;
     -- Code here runs when the scene is first created but has not yet appeared on screen
  
 end
