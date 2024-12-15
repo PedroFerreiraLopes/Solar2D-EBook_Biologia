@@ -49,6 +49,10 @@ function scene:create( event )
     botoes.setSound({soundButtonGroup, soundOn, soundOff}, "audios/Pag3.mp3");
     foregroundGroup:insert( soundButtonGroup );
 
+    local instructionBox = display.newImage( foregroundGroup, "assets/Pag3/instructionBox.png");
+    instructionBox.anchorX, instructionBox.anchorY = 0, 0;
+    instructionBox.x, instructionBox.y = 102, 894;
+
     -- local fc_1 = display.newGroup();
 
     -- local grass = display.newImage(fc_1, "assets/Grass.png" );
